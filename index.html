@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taron - Your Vision, Online</title>
+    <title>Taron Web Design - Your Vision, Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,6 +42,12 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
             outline: none;
         }
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -57,7 +63,13 @@
                     <a href="#services" class="text-gray-600 hover:text-indigo-600">Services</a>
                     <a href="#how-it-works" class="text-gray-600 hover:text-indigo-600">Process</a>
                     <a href="#pricing" class="text-gray-600 hover:text-indigo-600">Pricing</a>
-                    <a href="#contact" class="bg-indigo-600 text-white px-5 py-2 rounded-full cta-button">Order Now</a>
+                    <div id="auth-links">
+                        <a href="#" id="login-btn" class="bg-indigo-600 text-white px-5 py-2 rounded-full cta-button">Login</a>
+                    </div>
+                    <div id="user-info" class="hidden items-center">
+                        <span id="user-name" class="font-semibold text-gray-700"></span>
+                        <button id="logout-btn" class="ml-4 bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-300">Logout</button>
+                    </div>
                 </nav>
                 <div class="md:hidden">
                     <button id="menu-btn" class="text-gray-800">
@@ -204,7 +216,7 @@
                         <div class="text-gray-600 mt-2 space-y-3">
                             <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> taronseynyan58@gmail.com</p>
                             <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +37491468210</p>
-                            <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> taronseynyan</p>
+                            <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> <a href="https://www.instagram.com/taronseynyan?igsh=aWpkcHBieHZlbW96&utm_source=qr" target="_blank" rel="noopener noreferrer" class="hover:underline">taronseynyan</a></p>
                         </div>
                     </div>
                     <div class="lg:w-1/2 mt-8 lg:mt-0">
@@ -259,56 +271,234 @@
                     <div class="text-gray-400 mt-3 space-y-2">
                         <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> taronseynyan58@gmail.com</p>
                         <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +37491468210</p>
-                        <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> taronseynyan</p>
+                        <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> <a href="https://www.instagram.com/taronseynyan?igsh=aWpkcHBieHZlbW96&utm_source=qr" target="_blank" rel="noopener noreferrer" class="hover:underline">taronseynyan</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- Sign Up Modal -->
+    <div id="signup-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-container bg-white w-full max-w-md p-8 rounded-2xl shadow-xl transform scale-95">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Create Your Account</h2>
+                <button id="close-signup-modal" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <form id="signup-form">
+                <div>
+                    <label for="signup-name" class="font-semibold text-gray-700 block mb-1">Full Name</label>
+                    <input type="text" id="signup-name" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                </div>
+                <div class="mt-4">
+                    <label for="signup-email" class="font-semibold text-gray-700 block mb-1">Email Address</label>
+                    <input type="email" id="signup-email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                </div>
+                <div class="mt-4">
+                    <label for="signup-password" class="font-semibold text-gray-700 block mb-1">Password</label>
+                    <input type="password" id="signup-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                </div>
+                <p id="signup-error" class="text-red-500 text-sm mt-2 hidden"></p>
+                <div class="mt-6">
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button">Create Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-container bg-white w-full max-w-md p-8 rounded-2xl shadow-xl transform scale-95">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Welcome Back!</h2>
+                <button id="close-login-modal" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <form id="login-form">
+                <div class="mt-4">
+                    <label for="login-email" class="font-semibold text-gray-700 block mb-1">Email Address</label>
+                    <input type="email" id="login-email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                </div>
+                <div class="mt-4">
+                    <label for="login-password" class="font-semibold text-gray-700 block mb-1">Password</label>
+                    <input type="password" id="login-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                </div>
+                 <p id="login-error" class="text-red-500 text-sm mt-2 hidden"></p>
+                <div class="mt-6">
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button">Login</button>
+                </div>
+                <p class="text-center mt-4 text-sm text-gray-600">
+                    Don't have an account? <a href="#" id="go-to-signup" class="font-semibold text-indigo-600 hover:underline">Sign Up</a>
+                </p>
+            </form>
+        </div>
+    </div>
     
     <script>
-        // Mobile Menu Toggle
+        // --- UI Elements ---
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        const orderForm = document.getElementById('orderForm');
+        const formSuccessMessage = document.getElementById('form-success');
+        
+        // --- Auth Elements ---
+        const authLinks = document.getElementById('auth-links');
+        const userInfo = document.getElementById('user-info');
+        const userNameEl = document.getElementById('user-name');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginBtn = document.getElementById('login-btn');
+        
+        // --- Modals ---
+        const signupModal = document.getElementById('signup-modal');
+        const loginModal = document.getElementById('login-modal');
+        const closeSignupModalBtn = document.getElementById('close-signup-modal');
+        const closeLoginModalBtn = document.getElementById('close-login-modal');
+
+        // --- Forms ---
+        const signupForm = document.getElementById('signup-form');
+        const loginForm = document.getElementById('login-form');
+        const signupError = document.getElementById('signup-error');
+        const loginError = document.getElementById('login-error');
+
+        // --- Event Listeners ---
+        
+        // Mobile Menu Toggle
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close mobile menu on link click
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
+                const href = this.getAttribute('href');
+                if(href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
                 }
             });
         });
         
-        // Form submission handling
-        const orderForm = document.getElementById('orderForm');
-        const formSuccessMessage = document.getElementById('form-success');
-        
+        // Order Form submission
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            // In a real application, you would send this data to a server.
-            // For this demo, we'll just show a success message.
             formSuccessMessage.classList.remove('hidden');
             orderForm.reset();
-            setTimeout(() => {
-                formSuccessMessage.classList.add('hidden');
-            }, 5000); // Hide message after 5 seconds
+            setTimeout(() => formSuccessMessage.classList.add('hidden'), 5000);
         });
+
+        // --- Modal Logic ---
+        const openModal = (modal) => {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('.modal-container').classList.add('scale-100');
+                modal.querySelector('.modal-container').classList.remove('scale-95');
+                modal.classList.remove('opacity-0');
+            }, 10);
+        };
+
+        const closeModal = (modal) => {
+             modal.querySelector('.modal-container').classList.remove('scale-100');
+             modal.querySelector('.modal-container').classList.add('scale-95');
+             modal.classList.add('opacity-0');
+             setTimeout(() => modal.classList.add('hidden'), 300);
+        };
+        
+        loginBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+        // The signupBtn from the header is removed, so we find the new link
+        const goToSignupLink = document.getElementById('go-to-signup');
+        goToSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(loginModal);
+            openModal(signupModal);
+        });
+
+        closeLoginModalBtn.addEventListener('click', () => closeModal(loginModal));
+        closeSignupModalBtn.addEventListener('click', () => closeModal(signupModal));
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) closeModal(loginModal);
+            if (e.target === signupModal) closeModal(signupModal);
+        });
+        
+        // --- Authentication Logic ---
+        const updateUIForLoggedInUser = (user) => {
+            authLinks.classList.add('hidden');
+            userInfo.classList.remove('hidden');
+            userInfo.classList.add('flex');
+            userNameEl.textContent = `Welcome, ${user.name}`;
+        };
+
+        const updateUIForLoggedOutUser = () => {
+            authLinks.classList.remove('hidden');
+            userInfo.classList.add('hidden');
+            userInfo.classList.remove('flex');
+            userNameEl.textContent = '';
+        };
+
+        const checkLoginState = () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                updateUIForLoggedInUser(currentUser);
+            } else {
+                updateUIForLoggedOutUser();
+            }
+        };
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            signupError.classList.add('hidden');
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            if (users.find(user => user.email === email)) {
+                signupError.textContent = 'An account with this email already exists.';
+                signupError.classList.remove('hidden');
+                return;
+            }
+            
+            const newUser = { name, email, password };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            updateUIForLoggedInUser(newUser);
+            closeModal(signupModal);
+            signupForm.reset();
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginError.classList.add('hidden');
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                updateUIForLoggedInUser(user);
+                closeModal(loginModal);
+                loginForm.reset();
+            } else {
+                loginError.textContent = 'Invalid email or password.';
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('currentUser');
+            updateUIForLoggedOutUser();
+        });
+
+        // Initial check on page load
+        document.addEventListener('DOMContentLoaded', checkLoginState);
 
     </script>
 </body>
 </html>
-
-
-
 
 
 
