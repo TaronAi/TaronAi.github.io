@@ -1,426 +1,315 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ping Pong</title>
+    <title>Taron Web Design - Your Vision, Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Press Start 2P', cursive;
-            background-color: #0d0d0d;
-            color: #ffffff;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
         }
-        canvas {
-            background-color: #000;
-            border: 4px solid #fff;
-            box-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff;
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        .container {
-            text-align: center;
-        }
-        h1 {
-            font-size: 3rem;
-            text-shadow: 0 0 10px #fff, 0 0 20px #f0f;
-            margin-bottom: 1rem;
-        }
-        #score {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 5px #fff;
-        }
-        button {
-            background-color: #1a1a1a;
-            border: 2px solid #fff;
-            color: #fff;
-            padding: 10px 20px;
-            font-family: 'Press Start 2P', cursive;
-            cursor: pointer;
+        .cta-button {
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px #f0f;
         }
-        button:hover {
-            background-color: #fff;
-            color: #000;
-            box-shadow: 0 0 20px #f0f, 0 0 30px #f0f;
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
         }
-        .difficulty-btn, .skin-btn {
-            padding: 8px 16px;
-            font-size: 1rem;
+        .section-title {
+            font-weight: 900;
+            color: #1a202c;
         }
-        .difficulty-btn.active, .skin-btn.active {
-            background-color: #f0f;
-            color: #000;
-            box-shadow: 0 0 20px #f0f, 0 0 30px #f0f;
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        #messageBox {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 40px;
-            border-radius: 10px;
-            border: 2px solid #fff;
-            font-size: 2rem;
-            text-align: center;
-            z-index: 10;
-            display: none; /* Hidden by default */
-            text-shadow: 0 0 10px #f0f;
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .form-input {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            outline: none;
         }
     </style>
 </head>
-<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
+<body class="text-gray-800">
 
-    <div class="container mx-auto text-center">
-        <h1 class="text-5xl mb-4">PONG</h1>
-        <div id="score" class="text-3xl mb-4">0 - 0</div>
-        <canvas id="gameCanvas"></canvas>
-        <div id="difficultyButtons" class="my-4 flex justify-center space-x-4">
-            <button class="difficulty-btn active" data-difficulty="easy">Easy</button>
-            <button class="difficulty-btn" data-difficulty="medium">Medium</button>
-            <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold text-gray-900">
+                    <a href="#">Taron Web Design</a>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-gray-600 hover:text-indigo-600">Services</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-indigo-600">Process</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-indigo-600">Pricing</a>
+                    <a href="#contact" class="bg-indigo-600 text-white px-5 py-2 rounded-full cta-button">Order Now</a>
+                </nav>
+                <div class="md:hidden">
+                    <button id="menu-btn" class="text-gray-800">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                 <a href="#services" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200 rounded">Services</a>
+                 <a href="#how-it-works" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200 rounded">Process</a>
+                 <a href="#pricing" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200 rounded">Pricing</a>
+                 <a href="#contact" class="block py-2 px-4 text-sm bg-indigo-600 text-white text-center rounded-lg mt-2">Order Now</a>
+            </div>
         </div>
-        <div id="skinButtons" class="mb-4 flex justify-center space-x-4">
-             <button class="skin-btn active" data-skin="classic">⚪</button>
-             <button class="skin-btn" data-skin="tennis">🎾</button>
-             <button class="skin-btn" data-skin="soccer">⚽</button>
-             <button class="skin-btn" data-skin="basketball">🏀</button>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white pt-32 pb-20">
+            <div class="container mx-auto text-center px-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Bring Your Vision to the Web</h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90 mb-8">We build beautiful, high-performance websites that capture your brand and engage your audience. Ready to launch your idea?</p>
+                <a href="#contact" class="bg-white text-indigo-600 font-bold py-4 px-8 rounded-full text-lg cta-button">Start Your Project Today</a>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title text-3xl md:text-4xl">What We Build</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">From simple landing pages to complex e-commerce solutions, we've got you covered.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="service-card bg-gray-50 p-8 rounded-2xl text-center">
+                        <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto mb-6">
+                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547a2 2 0 00-.547 1.806l.477 2.387a6 6 0 00.517 3.86l.158.318a6 6 0 00.517 3.86l2.387.477a2 2 0 001.806-.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 00-.517-3.86l-2.387-.477z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Business Websites</h3>
+                        <p class="text-gray-600">Establish a professional online presence with a custom website that showcases your services and values.</p>
+                    </div>
+                    <!-- Service Card 2 -->
+                    <div class="service-card bg-gray-50 p-8 rounded-2xl text-center">
+                        <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto mb-6">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Landing Pages</h3>
+                        <p class="text-gray-600">Capture leads and showcase your product with a stunning, high-converting single page built with HTML & CSS.</p>
+                    </div>
+                    <!-- Service Card 3 -->
+                    <div class="service-card bg-gray-50 p-8 rounded-2xl text-center">
+                        <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto mb-6">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Custom Static Sites</h3>
+                        <p class="text-gray-600">Need a unique design? We build completely custom sites with complex layouts and animations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title text-3xl md:text-4xl">Our Simple 3-Step Process</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">We make the journey from idea to launch seamless and transparent.</p>
+                </div>
+                <div class="flex flex-col md:flex-row justify-center items-start text-center gap-8 md:gap-12">
+                    <!-- Step 1 -->
+                    <div class="flex-1 max-w-sm">
+                        <div class="p-4 bg-indigo-600 text-white rounded-full text-2xl font-bold w-16 h-16 flex items-center justify-center mx-auto mb-4">1</div>
+                        <h3 class="text-xl font-bold mb-2">Discovery & Plan</h3>
+                        <p class="text-gray-600">We start by understanding your goals and target audience to create a detailed project roadmap.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex-1 max-w-sm">
+                        <div class="p-4 bg-indigo-600 text-white rounded-full text-2xl font-bold w-16 h-16 flex items-center justify-center mx-auto mb-4">2</div>
+                        <h3 class="text-xl font-bold mb-2">Design & Develop</h3>
+                        <p class="text-gray-600">Our team brings the vision to life with modern design and clean, efficient code.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="flex-1 max-w-sm">
+                        <div class="p-4 bg-indigo-600 text-white rounded-full text-2xl font-bold w-16 h-16 flex items-center justify-center mx-auto mb-4">3</div>
+                        <h3 class="text-xl font-bold mb-2">Launch & Support</h3>
+                        <p class="text-gray-600">We deploy your site and provide ongoing support to ensure it runs smoothly and stays up-to-date.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="section-title text-3xl md:text-4xl">Clear & Simple Pricing</h2>
+                    <p class="text-gray-600 mt-2">Choose a plan that fits your needs. No hidden fees.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                    <!-- Pricing Plan 1 -->
+                    <div class="border rounded-2xl p-8 flex flex-col">
+                        <h3 class="text-2xl font-bold text-center">Starter</h3>
+                        <p class="text-center text-gray-500 mt-2">Perfect for portfolios & small sites.</p>
+                        <div class="text-5xl font-extrabold text-center my-6">$30</div>
+                        <ul class="space-y-4 text-gray-600 flex-grow">
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Up to 5 Pages</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Responsive Design</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Contact Form</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 text-center bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg cta-button">Choose Plan</a>
+                    </div>
+                    <!-- Pricing Plan 2 (Featured) -->
+                    <div class="border-2 border-indigo-600 rounded-2xl p-8 flex flex-col relative transform scale-105">
+                        <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-sm font-bold px-4 py-1 rounded-full">POPULAR</div>
+                        <h3 class="text-2xl font-bold text-center">Business</h3>
+                        <p class="text-center text-gray-500 mt-2">Ideal for growing businesses.</p>
+                        <div class="text-center my-6">
+                            <span class="text-2xl text-gray-400 line-through mr-2">$60</span>
+                            <span class="text-5xl font-extrabold text-gray-900">$45</span>
+                        </div>
+                        <ul class="space-y-4 text-gray-600 flex-grow">
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Up to 10 Pages</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Content Management</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Basic SEO</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 text-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button">Choose Plan</a>
+                    </div>
+                    <!-- Pricing Plan 3 -->
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact / Order Form Section -->
+        <section id="contact" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 lg:flex lg:items-center lg:gap-12">
+                    <div class="lg:w-1/2">
+                        <h2 class="section-title text-3xl md:text-4xl">Ready to Start?</h2>
+                        <p class="text-gray-600 mt-4 mb-8">Fill out the form and we'll get back to you within 24 hours to discuss your project in detail. Let's build something amazing together!</p>
+                        <h3 class="font-bold text-lg text-gray-800">Taron Seynyan</h3>
+                        <div class="text-gray-600 mt-2 space-y-3">
+                            <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> taronseynyan58@gmail.com</p>
+                            <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +37491468210</p>
+                            <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> taronseynyan</p>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 mt-8 lg:mt-0">
+                        <form id="orderForm">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="font-semibold text-gray-700 block mb-1">Full Name</label>
+                                    <input type="text" id="name" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="font-semibold text-gray-700 block mb-1">Email Address</label>
+                                    <input type="email" id="email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <label for="website-type" class="font-semibold text-gray-700 block mb-1">Type of Website</label>
+                                <select id="website-type" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg bg-white">
+                                    <option>Business Website</option>
+                                    <option>Landing Page</option>
+                                    <option>Custom Static Site</option>
+                                    <option>Portfolio / Personal</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="mt-6">
+                                <label for="message" class="font-semibold text-gray-700 block mb-1">Project Details</label>
+                                <textarea id="message" rows="4" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Tell us about your project..."></textarea>
+                            </div>
+                            <div class="mt-6">
+                                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-lg cta-button">Submit Your Order</button>
+                            </div>
+                        </form>
+                        <div id="form-success" class="hidden mt-4 p-4 bg-green-100 text-green-800 border border-green-200 rounded-lg">
+                            Thanks for your submission! We'll be in touch shortly.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="md:flex md:justify-between md:items-center text-center md:text-left">
+                <div class="mb-8 md:mb-0">
+                    <a href="#" class="text-2xl font-bold text-white">Taron Web Design</a>
+                    <p class="text-gray-400 mt-2">&copy; 2025 Taron Web Design. All Rights Reserved.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-white">Taron Seynyan</h3>
+                    <div class="text-gray-400 mt-3 space-y-2">
+                        <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> taronseynyan58@gmail.com</p>
+                        <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +37491468210</p>
+                        <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> taronseynyan</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mt-4">
-            <button id="startButton">Start Game</button>
-        </div>
-    </div>
+    </footer>
     
-    <div id="messageBox">
-        <p id="messageText"></p>
-    </div>
-
-
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const startButton = document.getElementById('startButton');
-        const scoreElement = document.getElementById('score');
-        const messageBox = document.getElementById('messageBox');
-        const messageText = document.getElementById('messageText');
-        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
-        const skinButtons = document.querySelectorAll('.skin-btn');
-
-        let gameRunning = false;
-        let animationFrameId;
-        let difficulty = 'easy'; // Default difficulty
-        let selectedSkin = 'classic'; // Default skin
-
-        // --- Difficulty Settings ---
-        const difficultySettings = {
-            easy: { aiLevel: 0.07, initialSpeed: 4, speedIncrement: 0.2 },
-            medium: { aiLevel: 0.09, initialSpeed: 5, speedIncrement: 0.4 },
-            hard: { aiLevel: 0.12, initialSpeed: 7, speedIncrement: 0.6 }
-        };
-
-        // --- Ball Skins ---
-        const ballSkins = {
-            classic: '#fff',
-            tennis: '🎾',
-            soccer: '⚽',
-            basketball: '🏀'
-        };
-
-        // --- Game Objects ---
-        const paddleWidth = 15;
-        const paddleHeight = 100;
-
-        const player = {
-            x: 10,
-            y: canvas.height / 2 - paddleHeight / 2,
-            width: paddleWidth,
-            height: paddleHeight,
-            color: '#0ff', // Cyan
-            score: 0
-        };
-
-        const ai = {
-            x: canvas.width - paddleWidth - 10,
-            y: canvas.height / 2 - paddleHeight / 2,
-            width: paddleWidth,
-            height: paddleHeight,
-            color: '#f0f', // Magenta
-            score: 0
-        };
-
-        const ball = {
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            radius: 10,
-            speed: 5,
-            velocityX: 5,
-            velocityY: 5
-        };
-
-        function resizeCanvas() {
-            const maxWidth = window.innerWidth * 0.9;
-            const maxHeight = window.innerHeight * 0.6; // Adjusted for difficulty buttons
-            const aspectRatio = 16 / 9;
-
-            let width = maxWidth;
-            let height = width / aspectRatio;
-
-            if (height > maxHeight) {
-                height = maxHeight;
-                width = height * aspectRatio;
-            }
-            
-            canvas.width = Math.min(width, 800);
-            canvas.height = canvas.width / aspectRatio;
-
-            // Recalculate positions after resize
-            player.y = canvas.height / 2 - paddleHeight / 2;
-            ai.x = canvas.width - paddleWidth - 10;
-            ai.y = canvas.height / 2 - paddleHeight / 2;
-            resetBall();
-            draw();
-        }
-
-
-        // --- Drawing Functions ---
-        function drawRect(x, y, w, h, color) {
-            ctx.fillStyle = color;
-            ctx.fillRect(x, y, w, h);
-            // Add glow effect
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = color;
-        }
-
-        function drawBall() {
-            const skin = ballSkins[selectedSkin];
-            // Check if skin is a color hex code (classic)
-            if (skin.startsWith('#')) {
-                ctx.fillStyle = skin;
-                ctx.beginPath();
-                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
-                ctx.closePath();
-                ctx.fill();
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = skin;
-            } else { // It's an emoji
-                ctx.shadowBlur = 0; // No glow for emojis
-                ctx.font = `${ball.radius * 2}px serif`; // Font size based on radius
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(skin, ball.x, ball.y);
-            }
-        }
-
-        function drawNet() {
-            ctx.beginPath();
-            ctx.setLineDash([10, 15]);
-            ctx.moveTo(canvas.width / 2, 0);
-            ctx.lineTo(canvas.width / 2, canvas.height);
-            ctx.strokeStyle = "#555";
-            ctx.lineWidth = 4;
-            ctx.stroke();
-            ctx.setLineDash([]); // Reset dash
-        }
-
-        function draw() {
-            // Clear canvas with a transparent black to create motion blur
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Reset shadow for net
-            ctx.shadowBlur = 0;
-            drawNet();
-
-            drawRect(player.x, player.y, player.width, player.height, player.color);
-            drawRect(ai.x, ai.y, ai.width, ai.height, ai.color);
-            drawBall();
-        }
-        
-        // --- Game Logic ---
-        
-        // Player control
-        canvas.addEventListener('mousemove', movePaddle);
-
-        function movePaddle(evt) {
-            let rect = canvas.getBoundingClientRect();
-            player.y = evt.clientY - rect.top - player.height / 2;
-
-            // Keep paddle within canvas bounds
-            if (player.y < 0) {
-                player.y = 0;
-            } else if (player.y + player.height > canvas.height) {
-                player.y = canvas.height - player.height;
-            }
-        }
-        
-        // Collision detection
-        function collision(b, p) {
-            b.top = b.y - b.radius;
-            b.bottom = b.y + b.radius;
-            b.left = b.x - b.radius;
-            b.right = b.x + b.radius;
-
-            p.top = p.y;
-            p.bottom = p.y + p.height;
-            p.left = p.x;
-            p.right = p.x + p.width;
-
-            return b.right > p.left && b.bottom > p.top && b.left < p.right && b.top < p.bottom;
-        }
-        
-        // Reset ball to center
-        function resetBall() {
-            const settings = difficultySettings[difficulty];
-            ball.x = canvas.width / 2;
-            ball.y = canvas.height / 2;
-            ball.speed = settings.initialSpeed;
-            // Serve to the player who lost the last point
-            ball.velocityX = (ball.velocityX > 0 ? -1 : 1) * settings.initialSpeed;
-            ball.velocityY = settings.initialSpeed * (Math.random() > 0.5 ? 1 : -1);
-        }
-
-        function showMessage(msg) {
-            messageText.innerText = msg;
-            messageBox.style.display = 'block';
-        }
-        
-        function hideMessage() {
-            messageBox.style.display = 'none';
-        }
-
-        function update() {
-            // Ball movement
-            ball.x += ball.velocityX;
-            ball.y += ball.velocityY;
-            
-            // AI Movement (simple)
-            const settings = difficultySettings[difficulty];
-            let aiLevel = settings.aiLevel;
-            ai.y += (ball.y - (ai.y + ai.height / 2)) * aiLevel;
-             // Keep AI paddle within canvas bounds
-            if (ai.y < 0) {
-                ai.y = 0;
-            } else if (ai.y + ai.height > canvas.height) {
-                ai.y = canvas.height - ai.height;
-            }
-
-            // Ball collision with top/bottom walls
-            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-                ball.velocityY = -ball.velocityY;
-            }
-            
-            // Determine which paddle is being hit
-            let p = (ball.x < canvas.width / 2) ? player : ai;
-
-            if (collision(ball, p)) {
-                // Determine where the ball hit the paddle
-                let collidePoint = (ball.y - (p.y + p.height / 2));
-                // Normalize the value
-                collidePoint = collidePoint / (p.height / 2);
-
-                // Calculate angle in Radian
-                let angleRad = (Math.PI / 4) * collidePoint;
-
-                // Change X and Y velocity direction
-                let direction = (ball.x < canvas.width / 2) ? 1 : -1;
-                ball.velocityX = direction * ball.speed * Math.cos(angleRad);
-                ball.velocityY = ball.speed * Math.sin(angleRad);
-                
-                // Increase ball speed after each hit
-                ball.speed += settings.speedIncrement;
-            }
-            
-            // Scoring
-            if (ball.x - ball.radius < 0) {
-                // AI scores
-                ai.score++;
-                resetBall();
-            } else if (ball.x + ball.radius > canvas.width) {
-                // Player scores
-                player.score++;
-                resetBall();
-            }
-            
-            scoreElement.textContent = `${player.score} - ${ai.score}`;
-
-            if(player.score === 5) {
-                showMessage('You Win!');
-                endGame();
-            } else if (ai.score === 5) {
-                showMessage('AI Wins!');
-                endGame();
-            }
-        }
-        
-        function gameLoop() {
-            update();
-            draw();
-            if (gameRunning) {
-                animationFrameId = requestAnimationFrame(gameLoop);
-            }
-        }
-
-        function startGame() {
-            if (gameRunning) return;
-            gameRunning = true;
-            player.score = 0;
-            ai.score = 0;
-            scoreElement.textContent = `0 - 0`;
-            hideMessage();
-            resetBall();
-            startButton.textContent = 'Restart Game';
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-            }
-            gameLoop();
-        }
-
-        function endGame() {
-            gameRunning = false;
-            cancelAnimationFrame(animationFrameId);
-            startButton.textContent = 'Play Again?';
-        }
-
-        // --- Event Listeners ---
-        startButton.addEventListener('click', startGame);
-        window.addEventListener('resize', resizeCanvas);
-        
-        difficultyButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                if (gameRunning) return;
-                difficultyButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                difficulty = button.dataset.difficulty;
-            });
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
 
-        skinButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                skinButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                selectedSkin = button.dataset.skin;
-                if (!gameRunning) {
-                   draw();
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu on link click
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
                 }
             });
         });
         
-        // --- Initial Setup ---
-        window.onload = () => {
-            resizeCanvas();
-            showMessage('Select Your Options & Start!');
-        };
-    </script>
+        // Form submission handling
+        const orderForm = document.getElementById('orderForm');
+        const formSuccessMessage = document.getElementById('form-success');
+        
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real application, you would send this data to a server.
+            // For this demo, we'll just show a success message.
+            formSuccessMessage.classList.remove('hidden');
+            orderForm.reset();
+            setTimeout(() => {
+                formSuccessMessage.classList.add('hidden');
+            }, 5000); // Hide message after 5 seconds
+        });
 
+    </script>
 </body>
 </html>
+
+
+
+
+
+
 
