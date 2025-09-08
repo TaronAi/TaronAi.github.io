@@ -221,17 +221,7 @@
                     </div>
                     <div class="lg:w-1/2 mt-8 lg:mt-0">
                         <form id="orderForm">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="name" class="font-semibold text-gray-700 block mb-1">Full Name</label>
-                                    <input type="text" id="name" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
-                                </div>
-                                <div>
-                                    <label for="email" class="font-semibold text-gray-700 block mb-1">Email Address</label>
-                                    <input type="email" id="email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
-                                </div>
-                            </div>
-                            <div class="mt-6">
+                            <div>
                                 <label for="website-type" class="font-semibold text-gray-700 block mb-1">Type of Website</label>
                                 <select id="website-type" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg bg-white">
                                     <option>Business Website</option>
@@ -246,12 +236,9 @@
                                 <textarea id="message" rows="4" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Tell us about your project..."></textarea>
                             </div>
                             <div class="mt-6">
-                                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-lg cta-button">Submit Your Order</button>
+                                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-lg cta-button">Email Your Request</button>
                             </div>
                         </form>
-                        <div id="form-success" class="hidden mt-4 p-4 bg-green-100 text-green-800 border border-green-200 rounded-lg">
-                            Thanks for your submission! We'll be in touch shortly.
-                        </div>
                     </div>
                 </div>
             </div>
@@ -338,7 +325,6 @@
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const orderForm = document.getElementById('orderForm');
-        const formSuccessMessage = document.getElementById('form-success');
         
         // --- Auth Elements ---
         const authLinks = document.getElementById('auth-links');
@@ -381,13 +367,25 @@
         // Order Form submission
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            formSuccessMessage.classList.remove('hidden');
-            orderForm.reset();
-            setTimeout(() => formSuccessMessage.classList.add('hidden'), 5000);
+            const websiteType = document.getElementById('website-type').value;
+            const message = document.getElementById('message').value;
+
+            const subject = `Web Design Inquiry: ${websiteType}`;
+            const body = `Hello Taron,\n\nI'm interested in a "${websiteType}" website.\n\nProject Details:\n${message}\n\nThanks!`;
+
+            const mailtoLink = `mailto:taronseynyan58@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
         });
 
         // --- Modal Logic ---
         const openModal = (modal) => {
+            if (modal === loginModal) {
+                loginForm.reset();
+                loginError.classList.add('hidden');
+            } else if (modal === signupModal) {
+                signupForm.reset();
+                signupError.classList.add('hidden');
+            }
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.querySelector('.modal-container').classList.add('scale-100');
@@ -505,9 +503,4 @@
     </script>
 </body>
 </html>
-
-
-
-
-
 
