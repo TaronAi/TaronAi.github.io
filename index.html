@@ -287,16 +287,16 @@
             </div>
             <form id="signup-form">
                 <div>
-                    <label for="signup-name" class="font-semibold text-gray-700 block mb-1">Full Name</label>
-                    <input type="text" id="signup-name" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
-                </div>
-                <div class="mt-4">
-                    <label for="signup-email" class="font-semibold text-gray-700 block mb-1">Email Address</label>
-                    <input type="email" id="signup-email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                    <label for="signup-username" class="font-semibold text-gray-700 block mb-1">Username</label>
+                    <input type="text" id="signup-username" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
                 </div>
                 <div class="mt-4">
                     <label for="signup-password" class="font-semibold text-gray-700 block mb-1">Password</label>
                     <input type="password" id="signup-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                </div>
+                <div class="mt-4">
+                    <label for="signup-confirm-password" class="font-semibold text-gray-700 block mb-1">Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
                 </div>
                 <p id="signup-error" class="text-red-500 text-sm mt-2 hidden"></p>
                 <div class="mt-6">
@@ -315,8 +315,8 @@
             </div>
             <form id="login-form">
                 <div class="mt-4">
-                    <label for="login-email" class="font-semibold text-gray-700 block mb-1">Email Address</label>
-                    <input type="email" id="login-email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                    <label for="login-username" class="font-semibold text-gray-700 block mb-1">Username</label>
+                    <input type="text" id="login-username" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
                 </div>
                 <div class="mt-4">
                     <label for="login-password" class="font-semibold text-gray-700 block mb-1">Password</label>
@@ -424,7 +424,7 @@
             authLinks.classList.add('hidden');
             userInfo.classList.remove('hidden');
             userInfo.classList.add('flex');
-            userNameEl.textContent = `Welcome, ${user.name}`;
+            userNameEl.textContent = `Welcome, ${user.username}`;
         };
 
         const updateUIForLoggedOutUser = () => {
@@ -446,19 +446,25 @@
         signupForm.addEventListener('submit', (e) => {
             e.preventDefault();
             signupError.classList.add('hidden');
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
+            const username = document.getElementById('signup-username').value;
             const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
             
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-            
-            if (users.find(user => user.email === email)) {
-                signupError.textContent = 'An account with this email already exists.';
+            if (password !== confirmPassword) {
+                signupError.textContent = 'Passwords do not match.';
                 signupError.classList.remove('hidden');
                 return;
             }
             
-            const newUser = { name, email, password };
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            if (users.find(user => user.username === username)) {
+                signupError.textContent = 'A user with this username already exists.';
+                signupError.classList.remove('hidden');
+                return;
+            }
+            
+            const newUser = { username, password };
             users.push(newUser);
             localStorage.setItem('users', JSON.stringify(users));
             localStorage.setItem('currentUser', JSON.stringify(newUser));
@@ -471,11 +477,11 @@
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             loginError.classList.add('hidden');
-            const email = document.getElementById('login-email').value;
+            const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
 
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(u => u.email === email && u.password === password);
+            const user = users.find(u => u.username === username && u.password === password);
 
             if (user) {
                 localStorage.setItem('currentUser', JSON.stringify(user));
@@ -483,7 +489,7 @@
                 closeModal(loginModal);
                 loginForm.reset();
             } else {
-                loginError.textContent = 'Invalid email or password.';
+                loginError.textContent = 'Invalid username or password.';
                 loginError.classList.remove('hidden');
             }
         });
@@ -499,6 +505,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
