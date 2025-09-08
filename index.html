@@ -199,7 +199,6 @@
                         </ul>
                         <a href="#contact" class="mt-8 text-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button">Choose Plan</a>
                     </div>
-                    <!-- Pricing Plan 3 -->
                     
                 </div>
             </div>
@@ -404,7 +403,7 @@
         };
         
         loginBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
-        // The signupBtn from the header is removed, so we find the new link
+        
         const goToSignupLink = document.getElementById('go-to-signup');
         goToSignupLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -419,12 +418,42 @@
             if (e.target === signupModal) closeModal(signupModal);
         });
         
+        // --- Security & Helper Functions ---
+
+        /**
+         * Hashes a string using the SHA-256 algorithm.
+         * @param {string} string The string to hash.
+         * @returns {Promise<string>} A promise that resolves to the hex-encoded hash.
+         */
+        async function hashData(string) {
+            const utf8 = new TextEncoder().encode(string);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray
+                .map((bytes) => bytes.toString(16).padStart(2, '0'))
+                .join('');
+            return hashHex;
+        }
+
+        /**
+         * Sanitizes a string by replacing HTML special characters with their entities.
+         * @param {string} str The string to sanitize.
+         * @returns {string} The sanitized string.
+         */
+        function sanitizeHTML(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
+
         // --- Authentication Logic ---
         const updateUIForLoggedInUser = (user) => {
             authLinks.classList.add('hidden');
             userInfo.classList.remove('hidden');
             userInfo.classList.add('flex');
-            userNameEl.textContent = `Welcome, ${user.username}`;
+            // Sanitize username before displaying to prevent XSS
+            userNameEl.textContent = `Welcome, ${sanitizeHTML(user.username)}`;
         };
 
         const updateUIForLoggedOutUser = () => {
@@ -443,12 +472,18 @@
             }
         };
 
-        signupForm.addEventListener('submit', (e) => {
+        signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             signupError.classList.add('hidden');
             const username = document.getElementById('signup-username').value;
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('signup-confirm-password').value;
+            
+            if (password.length < 8) {
+                signupError.textContent = 'Password must be at least 8 characters long.';
+                signupError.classList.remove('hidden');
+                return;
+            }
             
             if (password !== confirmPassword) {
                 signupError.textContent = 'Passwords do not match.';
@@ -464,7 +499,8 @@
                 return;
             }
             
-            const newUser = { username, password };
+            const passwordHash = await hashData(password);
+            const newUser = { username, passwordHash };
             users.push(newUser);
             localStorage.setItem('users', JSON.stringify(users));
             localStorage.setItem('currentUser', JSON.stringify(newUser));
@@ -474,14 +510,15 @@
             signupForm.reset();
         });
 
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             loginError.classList.add('hidden');
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
+            const passwordHash = await hashData(password);
 
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(u => u.username === username && u.password === password);
+            const user = users.find(u => u.username === username && u.passwordHash === passwordHash);
 
             if (user) {
                 localStorage.setItem('currentUser', JSON.stringify(user));
