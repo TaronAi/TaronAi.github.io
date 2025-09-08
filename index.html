@@ -272,18 +272,18 @@
                 <h2 class="text-2xl font-bold">Create Your Account</h2>
                 <button id="close-signup-modal" class="text-gray-500 hover:text-gray-800">&times;</button>
             </div>
-            <form id="signup-form">
+            <form id="signup-form" autocomplete="off">
                 <div>
                     <label for="signup-username" class="font-semibold text-gray-700 block mb-1">Username</label>
-                    <input type="text" id="signup-username" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                    <input type="text" id="signup-username" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="username">
                 </div>
                 <div class="mt-4">
                     <label for="signup-password" class="font-semibold text-gray-700 block mb-1">Password</label>
-                    <input type="password" id="signup-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                    <input type="password" id="signup-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="new-password">
                 </div>
                 <div class="mt-4">
                     <label for="signup-confirm-password" class="font-semibold text-gray-700 block mb-1">Confirm Password</label>
-                    <input type="password" id="signup-confirm-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                    <input type="password" id="signup-confirm-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="new-password">
                 </div>
                 <p id="signup-error" class="text-red-500 text-sm mt-2 hidden"></p>
                 <div class="mt-6">
@@ -300,14 +300,14 @@
                 <h2 class="text-2xl font-bold">Welcome Back!</h2>
                 <button id="close-login-modal" class="text-gray-500 hover:text-gray-800">&times;</button>
             </div>
-            <form id="login-form">
+            <form id="login-form" autocomplete="off">
                 <div class="mt-4">
                     <label for="login-username" class="font-semibold text-gray-700 block mb-1">Username</label>
-                    <input type="text" id="login-username" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                    <input type="text" id="login-username" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="username">
                 </div>
                 <div class="mt-4">
                     <label for="login-password" class="font-semibold text-gray-700 block mb-1">Password</label>
-                    <input type="password" id="login-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                    <input type="password" id="login-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="current-password">
                 </div>
                  <p id="login-error" class="text-red-500 text-sm mt-2 hidden"></p>
                 <div class="mt-6">
@@ -382,9 +382,11 @@
             if (modal === loginModal) {
                 loginForm.reset();
                 loginError.classList.add('hidden');
+                loginError.textContent = '';
             } else if (modal === signupModal) {
                 signupForm.reset();
                 signupError.classList.add('hidden');
+                signupError.textContent = '';
             }
             modal.classList.remove('hidden');
             setTimeout(() => {
