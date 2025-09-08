@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Pong</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #0d0d0d;
+            color: #ffffff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            background-color: #000;
+            border: 4px solid #fff;
+            box-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            text-shadow: 0 0 10px #fff, 0 0 20px #f0f;
+            margin-bottom: 1rem;
+        }
+        #score {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px #fff;
+        }
+        button {
+            background-color: #1a1a1a;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 10px 20px;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px #f0f;
+        }
+        button:hover {
+            background-color: #fff;
+            color: #000;
+            box-shadow: 0 0 20px #f0f, 0 0 30px #f0f;
+        }
+        .difficulty-btn, .skin-btn {
+            padding: 8px 16px;
+            font-size: 1rem;
+        }
+        .difficulty-btn.active, .skin-btn.active {
+            background-color: #f0f;
+            color: #000;
+            box-shadow: 0 0 20px #f0f, 0 0 30px #f0f;
+        }
+        #messageBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            border: 2px solid #fff;
+            font-size: 2rem;
+            text-align: center;
+            z-index: 10;
+            display: none; /* Hidden by default */
+            text-shadow: 0 0 10px #f0f;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="container mx-auto text-center">
+        <h1 class="text-5xl mb-4">PONG</h1>
+        <div id="score" class="text-3xl mb-4">0 - 0</div>
+        <canvas id="gameCanvas"></canvas>
+        <div id="difficultyButtons" class="my-4 flex justify-center space-x-4">
+            <button class="difficulty-btn active" data-difficulty="easy">Easy</button>
+            <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+            <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+        </div>
+        <div id="skinButtons" class="mb-4 flex justify-center space-x-4">
+             <button class="skin-btn active" data-skin="classic">⚪</button>
+             <button class="skin-btn" data-skin="tennis">🎾</button>
+             <button class="skin-btn" data-skin="soccer">⚽</button>
+             <button class="skin-btn" data-skin="basketball">🏀</button>
+        </div>
+        <div class="mt-4">
+            <button id="startButton">Start Game</button>
+        </div>
+    </div>
+    
+    <div id="messageBox">
+        <p id="messageText"></p>
+    </div>
+
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const startButton = document.getElementById('startButton');
+        const scoreElement = document.getElementById('score');
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
+        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        const skinButtons = document.querySelectorAll('.skin-btn');
+
+        let gameRunning = false;
+        let animationFrameId;
+        let difficulty = 'easy'; // Default difficulty
+        let selectedSkin = 'classic'; // Default skin
+
+        // --- Difficulty Settings ---
+        const difficultySettings = {
+            easy: { aiLevel: 0.07, initialSpeed: 4, speedIncrement: 0.2 },
+            medium: { aiLevel: 0.09, initialSpeed: 5, speedIncrement: 0.4 },
+            hard: { aiLevel: 0.12, initialSpeed: 7, speedIncrement: 0.6 }
+        };
+
+        // --- Ball Skins ---
+        const ballSkins = {
+            classic: '#fff',
+            tennis: '🎾',
+            soccer: '⚽',
+            basketball: '🏀'
+        };
+
+        // --- Game Objects ---
+        const paddleWidth = 15;
+        const paddleHeight = 100;
+
+        const player = {
+            x: 10,
+            y: canvas.height / 2 - paddleHeight / 2,
+            width: paddleWidth,
+            height: paddleHeight,
+            color: '#0ff', // Cyan
+            score: 0
+        };
+
+        const ai = {
+            x: canvas.width - paddleWidth - 10,
+            y: canvas.height / 2 - paddleHeight / 2,
+            width: paddleWidth,
+            height: paddleHeight,
+            color: '#f0f', // Magenta
+            score: 0
+        };
+
+        const ball = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 10,
+            speed: 5,
+            velocityX: 5,
+            velocityY: 5
+        };
+
+        function resizeCanvas() {
+            const maxWidth = window.innerWidth * 0.9;
+            const maxHeight = window.innerHeight * 0.6; // Adjusted for difficulty buttons
+            const aspectRatio = 16 / 9;
+
+            let width = maxWidth;
+            let height = width / aspectRatio;
+
+            if (height > maxHeight) {
+                height = maxHeight;
+                width = height * aspectRatio;
+            }
+            
+            canvas.width = Math.min(width, 800);
+            canvas.height = canvas.width / aspectRatio;
+
+            // Recalculate positions after resize
+            player.y = canvas.height / 2 - paddleHeight / 2;
+            ai.x = canvas.width - paddleWidth - 10;
+            ai.y = canvas.height / 2 - paddleHeight / 2;
+            resetBall();
+            draw();
+        }
+
+
+        // --- Drawing Functions ---
+        function drawRect(x, y, w, h, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, w, h);
+            // Add glow effect
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = color;
+        }
+
+        function drawBall() {
+            const skin = ballSkins[selectedSkin];
+            // Check if skin is a color hex code (classic)
+            if (skin.startsWith('#')) {
+                ctx.fillStyle = skin;
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
+                ctx.closePath();
+                ctx.fill();
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = skin;
+            } else { // It's an emoji
+                ctx.shadowBlur = 0; // No glow for emojis
+                ctx.font = `${ball.radius * 2}px serif`; // Font size based on radius
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(skin, ball.x, ball.y);
+            }
+        }
+
+        function drawNet() {
+            ctx.beginPath();
+            ctx.setLineDash([10, 15]);
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.strokeStyle = "#555";
+            ctx.lineWidth = 4;
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset dash
+        }
+
+        function draw() {
+            // Clear canvas with a transparent black to create motion blur
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Reset shadow for net
+            ctx.shadowBlur = 0;
+            drawNet();
+
+            drawRect(player.x, player.y, player.width, player.height, player.color);
+            drawRect(ai.x, ai.y, ai.width, ai.height, ai.color);
+            drawBall();
+        }
+        
+        // --- Game Logic ---
+        
+        // Player control
+        canvas.addEventListener('mousemove', movePaddle);
+
+        function movePaddle(evt) {
+            let rect = canvas.getBoundingClientRect();
+            player.y = evt.clientY - rect.top - player.height / 2;
+
+            // Keep paddle within canvas bounds
+            if (player.y < 0) {
+                player.y = 0;
+            } else if (player.y + player.height > canvas.height) {
+                player.y = canvas.height - player.height;
+            }
+        }
+        
+        // Collision detection
+        function collision(b, p) {
+            b.top = b.y - b.radius;
+            b.bottom = b.y + b.radius;
+            b.left = b.x - b.radius;
+            b.right = b.x + b.radius;
+
+            p.top = p.y;
+            p.bottom = p.y + p.height;
+            p.left = p.x;
+            p.right = p.x + p.width;
+
+            return b.right > p.left && b.bottom > p.top && b.left < p.right && b.top < p.bottom;
+        }
+        
+        // Reset ball to center
+        function resetBall() {
+            const settings = difficultySettings[difficulty];
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.speed = settings.initialSpeed;
+            // Serve to the player who lost the last point
+            ball.velocityX = (ball.velocityX > 0 ? -1 : 1) * settings.initialSpeed;
+            ball.velocityY = settings.initialSpeed * (Math.random() > 0.5 ? 1 : -1);
+        }
+
+        function showMessage(msg) {
+            messageText.innerText = msg;
+            messageBox.style.display = 'block';
+        }
+        
+        function hideMessage() {
+            messageBox.style.display = 'none';
+        }
+
+        function update() {
+            // Ball movement
+            ball.x += ball.velocityX;
+            ball.y += ball.velocityY;
+            
+            // AI Movement (simple)
+            const settings = difficultySettings[difficulty];
+            let aiLevel = settings.aiLevel;
+            ai.y += (ball.y - (ai.y + ai.height / 2)) * aiLevel;
+             // Keep AI paddle within canvas bounds
+            if (ai.y < 0) {
+                ai.y = 0;
+            } else if (ai.y + ai.height > canvas.height) {
+                ai.y = canvas.height - ai.height;
+            }
+
+            // Ball collision with top/bottom walls
+            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+                ball.velocityY = -ball.velocityY;
+            }
+            
+            // Determine which paddle is being hit
+            let p = (ball.x < canvas.width / 2) ? player : ai;
+
+            if (collision(ball, p)) {
+                // Determine where the ball hit the paddle
+                let collidePoint = (ball.y - (p.y + p.height / 2));
+                // Normalize the value
+                collidePoint = collidePoint / (p.height / 2);
+
+                // Calculate angle in Radian
+                let angleRad = (Math.PI / 4) * collidePoint;
+
+                // Change X and Y velocity direction
+                let direction = (ball.x < canvas.width / 2) ? 1 : -1;
+                ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+                ball.velocityY = ball.speed * Math.sin(angleRad);
+                
+                // Increase ball speed after each hit
+                ball.speed += settings.speedIncrement;
+            }
+            
+            // Scoring
+            if (ball.x - ball.radius < 0) {
+                // AI scores
+                ai.score++;
+                resetBall();
+            } else if (ball.x + ball.radius > canvas.width) {
+                // Player scores
+                player.score++;
+                resetBall();
+            }
+            
+            scoreElement.textContent = `${player.score} - ${ai.score}`;
+
+            if(player.score === 5) {
+                showMessage('You Win!');
+                endGame();
+            } else if (ai.score === 5) {
+                showMessage('AI Wins!');
+                endGame();
+            }
+        }
+        
+        function gameLoop() {
+            update();
+            draw();
+            if (gameRunning) {
+                animationFrameId = requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function startGame() {
+            if (gameRunning) return;
+            gameRunning = true;
+            player.score = 0;
+            ai.score = 0;
+            scoreElement.textContent = `0 - 0`;
+            hideMessage();
+            resetBall();
+            startButton.textContent = 'Restart Game';
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            gameLoop();
+        }
+
+        function endGame() {
+            gameRunning = false;
+            cancelAnimationFrame(animationFrameId);
+            startButton.textContent = 'Play Again?';
+        }
+
+        // --- Event Listeners ---
+        startButton.addEventListener('click', startGame);
+        window.addEventListener('resize', resizeCanvas);
+        
+        difficultyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (gameRunning) return;
+                difficultyButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                difficulty = button.dataset.difficulty;
+            });
+        });
+
+        skinButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                skinButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                selectedSkin = button.dataset.skin;
+                if (!gameRunning) {
+                   draw();
+                }
+            });
+        });
+        
+        // --- Initial Setup ---
+        window.onload = () => {
+            resizeCanvas();
+            showMessage('Select Your Options & Start!');
+        };
+    </script>
+
+</body>
+</html>
+
