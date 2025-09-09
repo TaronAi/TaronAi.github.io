@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taron Web Design - Your Vision, Online</title>
+    <title>Apex Webcraft - Your Vision, Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,6 +137,17 @@
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-6px); }
         }
+         /* Language Switcher */
+        .lang-switcher button {
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .lang-switcher button.active {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.4);
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -145,33 +156,53 @@
     <header class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold text-gray-900">
-                    <a href="#">Taron Web Design</a>
-                </div>
+                <a href="#" class="flex items-center space-x-2 text-gray-900">
+                    <!-- Minimalist SVG Logo: Stylized 'A' as a peak -->
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-indigo-600">
+                        <path d="M4 19L12 5L20 19M8.5 14H15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="text-2xl font-bold" data-key="navBrand">Apex Webcraft</span>
+                </a>
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#services" class="text-gray-600 hover:text-indigo-600">Services</a>
-                    <a href="#how-it-works" class="text-gray-600 hover:text-indigo-600">Process</a>
-                    <a href="#pricing" class="text-gray-600 hover:text-indigo-600">Pricing</a>
+                    <a href="#services" class="text-gray-600 hover:text-indigo-600" data-key="navServices">Services</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-indigo-600" data-key="navProcess">Process</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-indigo-600" data-key="navPricing">Pricing</a>
                     <div id="auth-links">
-                        <a href="#" id="login-btn" class="bg-indigo-600 text-white px-5 py-2 rounded-full cta-button">Login</a>
+                        <a href="#" id="login-btn" class="bg-indigo-600 text-white px-5 py-2 rounded-full cta-button" data-key="loginBtn">Login</a>
                     </div>
                     <div id="user-info" class="hidden items-center">
                         <span id="user-name" class="font-semibold text-gray-700"></span>
-                        <button id="logout-btn" class="ml-4 bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-300">Logout</button>
+                        <button id="logout-btn" class="ml-4 bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-300" data-key="logoutBtn">Logout</button>
+                    </div>
+                     <div class="lang-switcher flex items-center space-x-2 border-l pl-6 border-gray-200">
+                        <button data-lang="en">🇬🇧</button>
+                        <button data-lang="ru">🇷🇺</button>
                     </div>
                 </nav>
-                <div class="md:hidden">
+                <div class="md:hidden flex items-center">
+                     <div class="lang-switcher flex items-center space-x-2 mr-4">
+                        <button data-lang="en">🇬🇧</button>
+                        <button data-lang="ru">🇷🇺</button>
+                    </div>
                     <button id="menu-btn" class="text-gray-800">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     </button>
                 </div>
             </div>
             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4">
-                 <a href="#services" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200 rounded">Services</a>
-                 <a href="#how-it-works" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200 rounded">Process</a>
-                 <a href="#pricing" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200 rounded">Pricing</a>
-                 <a href="#contact" class="block py-2 px-4 text-sm bg-indigo-600 text-white text-center rounded-lg mt-2">Order Now</a>
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+                 <a href="#services" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded" data-key="navServicesMobile">Services</a>
+                 <a href="#how-it-works" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded" data-key="navProcessMobile">Process</a>
+                 <a href="#pricing" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded" data-key="navPricingMobile">Pricing</a>
+                 <a href="#contact" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded" data-key="navOrderMobile">Order Now</a>
+                 <hr class="border-gray-200">
+                 <div id="mobile-user-info" class="hidden px-4 py-2">
+                    <span id="mobile-user-name" class="font-semibold text-gray-700 block"></span>
+                    <button id="mobile-logout-btn" class="mt-2 w-full bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300" data-key="logoutBtnMobile">Logout</button>
+                 </div>
+                 <div id="mobile-auth-links" class="px-2 py-1">
+                    <a href="#" id="mobile-login-btn" class="block text-center bg-indigo-600 text-white px-5 py-2 rounded-lg cta-button" data-key="loginBtnMobile">Login</a>
+                 </div>
             </div>
         </div>
     </header>
@@ -180,9 +211,9 @@
         <!-- Hero Section -->
         <section class="hero-gradient text-white pt-32 pb-20">
             <div class="container mx-auto text-center px-6">
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Bring Your Vision to the Web</h1>
-                <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90 mb-8">We build beautiful, high-performance websites that capture your brand and engage your audience. Ready to launch your idea?</p>
-                <a href="#contact" class="bg-white text-indigo-600 font-bold py-4 px-8 rounded-full text-lg cta-button">Start Your Project Today</a>
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4" data-key="heroTitle">Bring Your Vision to the Web</h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90 mb-8" data-key="heroSubtitle">We build beautiful, high-performance websites that capture your brand and engage your audience. Ready to launch your idea?</p>
+                <a href="#contact" class="bg-white text-indigo-600 font-bold py-4 px-8 rounded-full text-lg cta-button" data-key="heroCta">Start Your Project Today</a>
             </div>
         </section>
 
@@ -190,8 +221,8 @@
         <section id="services" class="py-20 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="section-title text-3xl md:text-4xl">What We Build</h2>
-                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">From simple landing pages to complex e-commerce solutions, we've got you covered.</p>
+                    <h2 class="section-title text-3xl md:text-4xl" data-key="servicesTitle">What We Build</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="servicesSubtitle">From simple landing pages to complex e-commerce solutions, we've got you covered.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Service Card 1 -->
@@ -199,24 +230,24 @@
                         <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto mb-6">
                              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547a2 2 0 00-.547 1.806l.477 2.387a6 6 0 00.517 3.86l.158.318a6 6 0 00.517 3.86l2.387.477a2 2 0 001.806-.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 00-.517-3.86l-2.387-.477z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold mb-3">Business Websites</h3>
-                        <p class="text-gray-600">Establish a professional online presence with a custom website that showcases your services and values.</p>
+                        <h3 class="text-xl font-bold mb-3" data-key="service1Title">Business Websites</h3>
+                        <p class="text-gray-600" data-key="service1Desc">Establish a professional online presence with a custom website that showcases your services and values.</p>
                     </div>
                     <!-- Service Card 2 -->
                     <div class="service-card bg-gray-50 p-8 rounded-2xl text-center">
                         <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto mb-6">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold mb-3">Landing Pages</h3>
-                        <p class="text-gray-600">Capture leads and showcase your product with a stunning, high-converting single page built with HTML & CSS.</p>
+                        <h3 class="text-xl font-bold mb-3" data-key="service2Title">Landing Pages</h3>
+                        <p class="text-gray-600" data-key="service2Desc">Capture leads and showcase your product with a stunning, high-converting single page built with HTML & CSS.</p>
                     </div>
                     <!-- Service Card 3 -->
                     <div class="service-card bg-gray-50 p-8 rounded-2xl text-center">
                         <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto mb-6">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2_0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold mb-3">Custom Static Sites</h3>
-                        <p class="text-gray-600">Need a unique design? We build completely custom sites with complex layouts and animations.</p>
+                        <h3 class="text-xl font-bold mb-3" data-key="service3Title">Custom Static Sites</h3>
+                        <p class="text-gray-600" data-key="service3Desc">Need a unique design? We build completely custom sites with complex layouts and animations.</p>
                     </div>
                 </div>
             </div>
@@ -226,27 +257,27 @@
         <section id="how-it-works" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="section-title text-3xl md:text-4xl">Our Simple 3-Step Process</h2>
-                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">We make the journey from idea to launch seamless and transparent.</p>
+                    <h2 class="section-title text-3xl md:text-4xl" data-key="processTitle">Our Simple 3-Step Process</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto" data-key="processSubtitle">We make the journey from idea to launch seamless and transparent.</p>
                 </div>
                 <div class="flex flex-col md:flex-row justify-center items-start text-center gap-8 md:gap-12">
                     <!-- Step 1 -->
                     <div class="flex-1 max-w-sm">
                         <div class="p-4 bg-indigo-600 text-white rounded-full text-2xl font-bold w-16 h-16 flex items-center justify-center mx-auto mb-4">1</div>
-                        <h3 class="text-xl font-bold mb-2">Discovery & Plan</h3>
-                        <p class="text-gray-600">We start by understanding your goals and target audience to create a detailed project roadmap.</p>
+                        <h3 class="text-xl font-bold mb-2" data-key="step1Title">Discovery & Plan</h3>
+                        <p class="text-gray-600" data-key="step1Desc">We start by understanding your goals and target audience to create a detailed project roadmap.</p>
                     </div>
                     <!-- Step 2 -->
                     <div class="flex-1 max-w-sm">
                         <div class="p-4 bg-indigo-600 text-white rounded-full text-2xl font-bold w-16 h-16 flex items-center justify-center mx-auto mb-4">2</div>
-                        <h3 class="text-xl font-bold mb-2">Design & Develop</h3>
-                        <p class="text-gray-600">Our team brings the vision to life with modern design and clean, efficient code.</p>
+                        <h3 class="text-xl font-bold mb-2" data-key="step2Title">Design & Develop</h3>
+                        <p class="text-gray-600" data-key="step2Desc">Our team brings the vision to life with modern design and clean, efficient code.</p>
                     </div>
                     <!-- Step 3 -->
                     <div class="flex-1 max-w-sm">
                         <div class="p-4 bg-indigo-600 text-white rounded-full text-2xl font-bold w-16 h-16 flex items-center justify-center mx-auto mb-4">3</div>
-                        <h3 class="text-xl font-bold mb-2">Launch & Support</h3>
-                        <p class="text-gray-600">We deploy your site and provide ongoing support to ensure it runs smoothly and stays up-to-date.</p>
+                        <h3 class="text-xl font-bold mb-2" data-key="step3Title">Launch & Support</h3>
+                        <p class="text-gray-600" data-key="step3Desc">We deploy your site and provide ongoing support to ensure it runs smoothly and stays up-to-date.</p>
                     </div>
                 </div>
             </div>
@@ -256,37 +287,37 @@
         <section id="pricing" class="py-20 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="section-title text-3xl md:text-4xl">Clear & Simple Pricing</h2>
-                    <p class="text-gray-600 mt-2">Choose a plan that fits your needs. No hidden fees.</p>
+                    <h2 class="section-title text-3xl md:text-4xl" data-key="pricingTitle">Clear & Simple Pricing</h2>
+                    <p class="text-gray-600 mt-2" data-key="pricingSubtitle">Choose a plan that fits your needs. No hidden fees.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
                     <!-- Pricing Plan 1 -->
                     <div class="border rounded-2xl p-8 flex flex-col">
-                        <h3 class="text-2xl font-bold text-center">Starter</h3>
-                        <p class="text-center text-gray-500 mt-2">Perfect for portfolios & small sites.</p>
-                        <div class="text-5xl font-extrabold text-center my-6">$30</div>
+                        <h3 class="text-2xl font-bold text-center" data-key="plan1Title">Starter</h3>
+                        <p class="text-center text-gray-500 mt-2" data-key="plan1Subtitle">Perfect for portfolios & small sites.</p>
+                        <div class="text-5xl font-extrabold text-center my-6">$10</div>
                         <ul class="space-y-4 text-gray-600 flex-grow">
-                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Up to 5 Pages</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Responsive Design</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Contact Form</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span data-key="plan1Feat1">Up to 5 Pages</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span data-key="plan1Feat2">Responsive Design</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span data-key="plan1Feat3">Contact Form</span></li>
                         </ul>
-                        <a href="#contact" class="mt-8 text-center bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg cta-button">Choose Plan</a>
+                        <a href="#contact" class="mt-8 text-center bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg cta-button" data-key="planCta">Choose Plan</a>
                     </div>
                     <!-- Pricing Plan 2 (Featured) -->
                     <div class="border-2 border-indigo-600 rounded-2xl p-8 flex flex-col relative transform scale-105">
-                        <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-sm font-bold px-4 py-1 rounded-full">POPULAR</div>
-                        <h3 class="text-2xl font-bold text-center">Business</h3>
-                        <p class="text-center text-gray-500 mt-2">Ideal for growing businesses.</p>
+                        <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-sm font-bold px-4 py-1 rounded-full" data-key="popularBadge">POPULAR</div>
+                        <h3 class="text-2xl font-bold text-center" data-key="plan2Title">Business</h3>
+                        <p class="text-center text-gray-500 mt-2" data-key="plan2Subtitle">Ideal for growing businesses.</p>
                         <div class="text-center my-6">
-                            <span class="text-2xl text-gray-400 line-through mr-2">$60</span>
-                            <span class="text-5xl font-extrabold text-gray-900">$45</span>
+                            <span class="text-2xl text-gray-400 line-through mr-2">$20</span>
+                            <span class="text-5xl font-extrabold text-gray-900">$15</span>
                         </div>
                         <ul class="space-y-4 text-gray-600 flex-grow">
-                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Up to 10 Pages</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Content Management</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Basic SEO</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span data-key="plan2Feat1">Up to 10 Pages</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span data-key="plan2Feat2">Content Management</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span data-key="plan2Feat3">Basic SEO</span></li>
                         </ul>
-                        <a href="#contact" class="mt-8 text-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button">Choose Plan</a>
+                        <a href="#contact" class="mt-8 text-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button" data-key="planCta">Choose Plan</a>
                     </div>
                 </div>
             </div>
@@ -297,9 +328,9 @@
             <div class="container mx-auto px-6">
                 <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 lg:flex lg:items-center lg:gap-12">
                     <div class="lg:w-1/2">
-                        <h2 class="section-title text-3xl md:text-4xl">Ready to Start?</h2>
-                        <p class="text-gray-600 mt-4 mb-8">Fill out the form and we'll get back to you within 24 hours to discuss your project in detail. Let's build something amazing together!</p>
-                        <h3 class="font-bold text-lg text-gray-800">Taron Seynyan</h3>
+                        <h2 class="section-title text-3xl md:text-4xl" data-key="contactTitle">Ready to Start?</h2>
+                        <p class="text-gray-600 mt-4 mb-8" data-key="contactSubtitle">Fill out the form and we'll get back to you within 24 hours to discuss your project in detail. Let's build something amazing together!</p>
+                        <h3 class="font-bold text-lg text-gray-800" data-key="contactName">Taron Seynyan</h3>
                         <div class="text-gray-600 mt-2 space-y-3">
                             <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> taronseynyan58@gmail.com</p>
                             <p class="flex items-center"><svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +37491468210</p>
@@ -309,21 +340,21 @@
                     <div class="lg:w-1/2 mt-8 lg:mt-0">
                         <form id="orderForm">
                             <div>
-                                <label for="website-type" class="font-semibold text-gray-700 block mb-1">Type of Website</label>
+                                <label for="website-type" class="font-semibold text-gray-700 block mb-1" data-key="formTypeLabel">Type of Website</label>
                                 <select id="website-type" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg bg-white">
-                                    <option>Business Website</option>
-                                    <option>Landing Page</option>
-                                    <option>Custom Static Site</option>
-                                    <option>Portfolio / Personal</option>
-                                    <option>Other</option>
+                                    <option data-key="formTypeOpt1">Business Website</option>
+                                    <option data-key="formTypeOpt2">Landing Page</option>
+                                    <option data-key="formTypeOpt3">Custom Static Site</option>
+                                    <option data-key="formTypeOpt4">Portfolio / Personal</option>
+                                    <option data-key="formTypeOpt5">Other</option>
                                 </select>
                             </div>
                             <div class="mt-6">
-                                <label for="message" class="font-semibold text-gray-700 block mb-1">Project Details</label>
-                                <textarea id="message" rows="4" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Tell us about your project..."></textarea>
+                                <label for="message" class="font-semibold text-gray-700 block mb-1" data-key="formDetailsLabel">Project Details</label>
+                                <textarea id="message" rows="4" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Tell us about your project..." data-key="formDetailsPlaceholder" data-placeholder-key="formDetailsPlaceholder"></textarea>
                             </div>
                             <div class="mt-6">
-                                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-lg cta-button">Email Your Request</button>
+                                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-lg cta-button" data-key="formSubmitBtn">Email Your Request</button>
                             </div>
                         </form>
                     </div>
@@ -337,11 +368,11 @@
         <div class="container mx-auto px-6 py-12">
             <div class="md:flex md:justify-between md:items-center text-center md:text-left">
                 <div class="mb-8 md:mb-0">
-                    <a href="#" class="text-2xl font-bold text-white">Taron Web Design</a>
-                    <p class="text-gray-400 mt-2">&copy; 2025 Taron Web Design. All Rights Reserved.</p>
+                    <a href="#" class="text-2xl font-bold text-white" data-key="footerBrand">Apex Webcraft</a>
+                    <p class="text-gray-400 mt-2" data-key="footerRights">&copy; 2025 Apex Webcraft. All Rights Reserved.</p>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg text-white">Taron Seynyan</h3>
+                    <h3 class="font-bold text-lg text-white" data-key="footerName">Taron Seynyan</h3>
                     <div class="text-gray-400 mt-3 space-y-2">
                         <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> taronseynyan58@gmail.com</p>
                         <p class="flex items-center justify-center md:justify-start"><svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +37491468210</p>
@@ -356,25 +387,25 @@
     <div id="signup-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
         <div class="modal-container bg-white w-full max-w-md p-8 rounded-2xl shadow-xl transform scale-95">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Create Your Account</h2>
+                <h2 class="text-2xl font-bold" data-key="signupTitle">Create Your Account</h2>
                 <button id="close-signup-modal" class="text-gray-500 hover:text-gray-800">&times;</button>
             </div>
             <form id="signup-form" autocomplete="off">
                 <div>
-                    <label for="signup-username" class="font-semibold text-gray-700 block mb-1">Username</label>
+                    <label for="signup-username" class="font-semibold text-gray-700 block mb-1" data-key="usernameLabel">Username</label>
                     <input type="text" id="signup-username" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="username">
                 </div>
                 <div class="mt-4">
-                    <label for="signup-password" class="font-semibold text-gray-700 block mb-1">Password</label>
+                    <label for="signup-password" class="font-semibold text-gray-700 block mb-1" data-key="passwordLabel">Password</label>
                     <input type="password" id="signup-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="new-password">
                 </div>
                 <div class="mt-4">
-                    <label for="signup-confirm-password" class="font-semibold text-gray-700 block mb-1">Confirm Password</label>
+                    <label for="signup-confirm-password" class="font-semibold text-gray-700 block mb-1" data-key="confirmPasswordLabel">Confirm Password</label>
                     <input type="password" id="signup-confirm-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="new-password">
                 </div>
                 <p id="signup-error" class="text-red-500 text-sm mt-2 hidden"></p>
                 <div class="mt-6">
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button">Create Account</button>
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button" data-key="createAccountBtn">Create Account</button>
                 </div>
             </form>
         </div>
@@ -384,24 +415,24 @@
     <div id="login-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
         <div class="modal-container bg-white w-full max-w-md p-8 rounded-2xl shadow-xl transform scale-95">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Welcome Back!</h2>
+                <h2 class="text-2xl font-bold" data-key="loginTitle">Welcome Back!</h2>
                 <button id="close-login-modal" class="text-gray-500 hover:text-gray-800">&times;</button>
             </div>
             <form id="login-form" autocomplete="off">
                 <div class="mt-4">
-                    <label for="login-username" class="font-semibold text-gray-700 block mb-1">Username</label>
+                    <label for="login-username" class="font-semibold text-gray-700 block mb-1" data-key="usernameLabel">Username</label>
                     <input type="text" id="login-username" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="username">
                 </div>
                 <div class="mt-4">
-                    <label for="login-password" class="font-semibold text-gray-700 block mb-1">Password</label>
+                    <label for="login-password" class="font-semibold text-gray-700 block mb-1" data-key="passwordLabel">Password</label>
                     <input type="password" id="login-password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required autocomplete="current-password">
                 </div>
                  <p id="login-error" class="text-red-500 text-sm mt-2 hidden"></p>
                 <div class="mt-6">
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button">Login</button>
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg cta-button" data-key="loginBtnModal">Login</button>
                 </div>
                 <p class="text-center mt-4 text-sm text-gray-600">
-                    Don't have an account? <a href="#" id="go-to-signup" class="font-semibold text-indigo-600 hover:underline">Sign Up</a>
+                    <span data-key="noAccount">Don't have an account?</span> <a href="#" id="go-to-signup" class="font-semibold text-indigo-600 hover:underline" data-key="signupLink">Sign Up</a>
                 </p>
             </form>
         </div>
@@ -414,16 +445,16 @@
 
     <div id="chat-window">
         <div class="p-4 bg-gray-50 border-b border-gray-200">
-            <h3 class="font-bold text-lg text-center">Taron AI Assistant</h3>
+            <h3 class="font-bold text-lg text-center" data-key="chatTitle">Apex AI Assistant</h3>
         </div>
         <div id="chat-messages">
-            <div class="chat-message ai-message">
+            <div class="chat-message ai-message" data-key="chatWelcome">
                 Hello! How can I help you with your web design project today?
             </div>
         </div>
         <div class="p-4 bg-white border-t border-gray-200">
             <form id="chat-form" class="flex items-center gap-2">
-                <input type="text" id="chat-input" placeholder="Ask a question..." class="form-input w-full px-4 py-2 border border-gray-300 rounded-full" autocomplete="off">
+                <input type="text" id="chat-input" placeholder="Ask a question..." class="form-input w-full px-4 py-2 border border-gray-300 rounded-full" autocomplete="off" data-key="chatPlaceholder" data-placeholder-key="chatPlaceholder">
                 <button type="submit" class="bg-indigo-600 text-white rounded-full p-3 cta-button">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
                 </button>
@@ -437,12 +468,19 @@
         const mobileMenu = document.getElementById('mobile-menu');
         const orderForm = document.getElementById('orderForm');
         
-        // --- Auth Elements ---
+        // --- Auth Elements (Desktop) ---
         const authLinks = document.getElementById('auth-links');
         const userInfo = document.getElementById('user-info');
         const userNameEl = document.getElementById('user-name');
         const logoutBtn = document.getElementById('logout-btn');
         const loginBtn = document.getElementById('login-btn');
+
+        // --- Auth Elements (Mobile) ---
+        const mobileAuthLinks = document.getElementById('mobile-auth-links');
+        const mobileUserInfo = document.getElementById('mobile-user-info');
+        const mobileUserNameEl = document.getElementById('mobile-user-name');
+        const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+        const mobileLoginBtn = document.getElementById('mobile-login-btn');
         
         // --- Modals ---
         const signupModal = document.getElementById('signup-modal');
@@ -462,6 +500,191 @@
         const chatForm = document.getElementById('chat-form');
         const chatInput = document.getElementById('chat-input');
         const chatMessages = document.getElementById('chat-messages');
+
+        // --- Language Elements ---
+        const langSwitchers = document.querySelectorAll('.lang-switcher');
+
+        // --- Translations ---
+        const translations = {
+            en: {
+                // Nav
+                navBrand: "Apex Webcraft",
+                navServices: "Services",
+                navProcess: "Process",
+                navPricing: "Pricing",
+                loginBtn: "Login",
+                logoutBtn: "Logout",
+                navServicesMobile: "Services",
+                navProcessMobile: "Process",
+                navPricingMobile: "Pricing",
+                navOrderMobile: "Order Now",
+                logoutBtnMobile: "Logout",
+                loginBtnMobile: "Login",
+                welcomeUser: "Welcome, ",
+                // Hero
+                heroTitle: "Bring Your Vision to the Web",
+                heroSubtitle: "We build beautiful, high-performance websites that capture your brand and engage your audience. Ready to launch your idea?",
+                heroCta: "Start Your Project Today",
+                // Services
+                servicesTitle: "What We Build",
+                servicesSubtitle: "From simple landing pages to complex e-commerce solutions, we've got you covered.",
+                service1Title: "Business Websites",
+                service1Desc: "Establish a professional online presence with a custom website that showcases your services and values.",
+                service2Title: "Landing Pages",
+                service2Desc: "Capture leads and showcase your product with a stunning, high-converting single page built with HTML & CSS.",
+                service3Title: "Custom Static Sites",
+                service3Desc: "Need a unique design? We build completely custom sites with complex layouts and animations.",
+                // Process
+                processTitle: "Our Simple 3-Step Process",
+                processSubtitle: "We make the journey from idea to launch seamless and transparent.",
+                step1Title: "Discovery & Plan",
+                step1Desc: "We start by understanding your goals and target audience to create a detailed project roadmap.",
+                step2Title: "Design & Develop",
+                step2Desc: "Our team brings the vision to life with modern design and clean, efficient code.",
+                step3Title: "Launch & Support",
+                step3Desc: "We deploy your site and provide ongoing support to ensure it runs smoothly and stays up-to-date.",
+                // Pricing
+                pricingTitle: "Clear & Simple Pricing",
+                pricingSubtitle: "Choose a plan that fits your needs. No hidden fees.",
+                plan1Title: "Starter",
+                plan1Subtitle: "Perfect for portfolios & small sites.",
+                plan1Feat1: "Up to 5 Pages",
+                plan1Feat2: "Responsive Design",
+                plan1Feat3: "Contact Form",
+                planCta: "Choose Plan",
+                popularBadge: "POPULAR",
+                plan2Title: "Business",
+                plan2Subtitle: "Ideal for growing businesses.",
+                plan2Feat1: "Up to 10 Pages",
+                plan2Feat2: "Content Management",
+                plan2Feat3: "Basic SEO",
+                // Contact
+                contactTitle: "Ready to Start?",
+                contactSubtitle: "Fill out the form and we'll get back to you within 24 hours to discuss your project in detail. Let's build something amazing together!",
+                contactName: "Taron Seynyan",
+                formTypeLabel: "Type of Website",
+                formTypeOpt1: "Business Website",
+                formTypeOpt2: "Landing Page",
+                formTypeOpt3: "Custom Static Site",
+                formTypeOpt4: "Portfolio / Personal",
+                formTypeOpt5: "Other",
+                formDetailsLabel: "Project Details",
+                formDetailsPlaceholder: "Tell us about your project...",
+                formSubmitBtn: "Email Your Request",
+                // Footer
+                footerBrand: "Apex Webcraft",
+                footerRights: "© 2025 Apex Webcraft. All Rights Reserved.",
+                footerName: "Taron Seynyan",
+                // Modals
+                signupTitle: "Create Your Account",
+                usernameLabel: "Username",
+                passwordLabel: "Password",
+                confirmPasswordLabel: "Confirm Password",
+                createAccountBtn: "Create Account",
+                loginTitle: "Welcome Back!",
+                loginBtnModal: "Login",
+                noAccount: "Don't have an account?",
+                signupLink: "Sign Up",
+                // Chat
+                chatTitle: "Apex AI Assistant",
+                chatWelcome: "Hello! How can I help you with your web design project today?",
+                chatPlaceholder: "Ask a question...",
+                // Errors
+                passwordLengthError: "Password must be at least 8 characters long.",
+                passwordMatchError: "Passwords do not match.",
+                userExistsError: "A user with this username already exists.",
+                invalidCredentialsError: "Invalid username or password."
+            },
+            ru: {
+                // Nav
+                navBrand: "Apex Webcraft",
+                navServices: "Услуги",
+                navProcess: "Процесс",
+                navPricing: "Цены",
+                loginBtn: "Войти",
+                logoutBtn: "Выйти",
+                navServicesMobile: "Услуги",
+                navProcessMobile: "Процесс",
+                navPricingMobile: "Цены",
+                navOrderMobile: "Заказать",
+                logoutBtnMobile: "Выйти",
+                loginBtnMobile: "Войти",
+                welcomeUser: "Добро пожаловать, ",
+                // Hero
+                heroTitle: "Воплотите Ваше Видение в Жизнь",
+                heroSubtitle: "Мы создаем красивые, высокопроизводительные сайты, которые отражают ваш бренд и привлекают вашу аудиторию.",
+                heroCta: "Начать Проект Сегодня",
+                // Services
+                servicesTitle: "Что Мы Создаем",
+                servicesSubtitle: "От простых целевых страниц до сложных решений для электронной коммерции, мы вам поможем.",
+                service1Title: "Бизнес-сайты",
+                service1Desc: "Создайте профессиональное онлайн-присутствие с помощью индивидуального сайта, который демонстрирует ваши услуги и ценности.",
+                service2Title: "Целевые Страницы",
+                service2Desc: "Привлекайте клиентов и демонстрируйте свой продукт с помощью потрясающей, высококонверсионной одностраничной страницы, созданной с помощью HTML и CSS.",
+                service3Title: "Пользовательские Статичные Сайты",
+                service3Desc: "Нужен уникальный дизайн? Мы создаем полностью индивидуальные сайты со сложной версткой и анимацией.",
+                // Process
+                processTitle: "Наш Простой 3-шаговый Процесс",
+                processSubtitle: "Мы делаем путь от идеи до запуска гладким и прозрачным.",
+                step1Title: "Анализ и План",
+                step1Desc: "Мы начинаем с понимания ваших целей и целевой аудитории для создания детального плана проекта.",
+                step2Title: "Дизайн и Разработка",
+                step2Desc: "Наша команда воплощает видение в жизнь с помощью современного дизайна и чистого, эффективного кода.",
+                step3Title: "Запуск и Поддержка",
+                step3Desc: "Мы развертываем ваш сайт и предоставляем постоянную поддержку для обеспечения его бесперебойной работы.",
+                // Pricing
+                pricingTitle: "Прозрачные и Простые Цены",
+                pricingSubtitle: "Выберите план, который соответствует вашим потребностям. Без скрытых платежей.",
+                plan1Title: "Стартовый",
+                plan1Subtitle: "Идеально подходит для портфолио и небольших сайтов.",
+                plan1Feat1: "До 5 страниц",
+                plan1Feat2: "Адаптивный дизайн",
+                plan1Feat3: "Контактная форма",
+                planCta: "Выбрать План",
+                popularBadge: "ПОПУЛЯРНО",
+                plan2Title: "Бизнес",
+                plan2Subtitle: "Идеально для растущего бизнеса.",
+                plan2Feat1: "До 10 страниц",
+                plan2Feat2: "Управление контентом",
+                plan2Feat3: "Базовое SEO",
+                // Contact
+                contactTitle: "Готовы Начать?",
+                contactSubtitle: "Заполните форму, и мы свяжемся с вами в течение 24 часов для обсуждения вашего проекта.",
+                contactName: "Тарон Сейнян",
+                formTypeLabel: "Тип Сайта",
+                formTypeOpt1: "Бизнес-сайт",
+                formTypeOpt2: "Целевая страница",
+                formTypeOpt3: "Пользовательский статичный сайт",
+                formTypeOpt4: "Портфолио / Личный",
+                formTypeOpt5: "Другое",
+                formDetailsLabel: "Детали Проекта",
+                formDetailsPlaceholder: "Расскажите нам о вашем проекте...",
+                formSubmitBtn: "Отправить Запрос по Email",
+                // Footer
+                footerBrand: "Apex Webcraft",
+                footerRights: "© 2025 Apex Webcraft. Все права защищены.",
+                footerName: "Тарон Сейнян",
+                // Modals
+                signupTitle: "Создайте Ваш Аккаунт",
+                usernameLabel: "Имя пользователя",
+                passwordLabel: "Пароль",
+                confirmPasswordLabel: "Подтвердите пароль",
+                createAccountBtn: "Создать Аккаунт",
+                loginTitle: "С Возвращением!",
+                loginBtnModal: "Войти",
+                noAccount: "Нет аккаунта?",
+                signupLink: "Зарегистрироваться",
+                // Chat
+                chatTitle: "AI-помощник Apex",
+                chatWelcome: "Здравствуйте! Чем я могу помочь вам с вашим проектом веб-дизайна?",
+                chatPlaceholder: "Задайте вопрос...",
+                // Errors
+                passwordLengthError: "Пароль должен содержать не менее 8 символов.",
+                passwordMatchError: "Пароли не совпадают.",
+                userExistsError: "Пользователь с таким именем уже существует.",
+                invalidCredentialsError: "Неверное имя пользователя или пароль."
+            }
+        };
 
         // --- Event Listeners ---
         
@@ -522,6 +745,11 @@
         };
         
         loginBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+        mobileLoginBtn.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            openModal(loginModal);
+            mobileMenu.classList.add('hidden');
+        });
         
         const goToSignupLink = document.getElementById('go-to-signup');
         goToSignupLink.addEventListener('click', (e) => {
@@ -565,21 +793,69 @@
             return temp.innerHTML;
         }
 
+        // --- Language Switcher Logic ---
+        const setLanguage = (lang) => {
+            localStorage.setItem('language', lang);
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                const translation = translations[lang][key];
+                if (translation) {
+                     // Handle placeholders separately
+                    if(element.hasAttribute('data-placeholder-key')) {
+                        element.placeholder = translation;
+                    } else {
+                        element.textContent = translation;
+                    }
+                }
+            });
+
+             // Update active button style
+            langSwitchers.forEach(switcher => {
+                switcher.querySelectorAll('button').forEach(button => {
+                    button.classList.toggle('active', button.dataset.lang === lang);
+                });
+            });
+        };
+
+        langSwitchers.forEach(switcher => {
+            switcher.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const lang = e.target.dataset.lang;
+                    if (lang) {
+                        setLanguage(lang);
+                    }
+                }
+            });
+        });
 
         // --- Authentication Logic ---
         const updateUIForLoggedInUser = (user) => {
+            const lang = localStorage.getItem('language') || 'en';
+            const sanitizedUsername = sanitizeHTML(user.username);
+            const welcomeText = translations[lang].welcomeUser || "Welcome, ";
+            // Desktop
             authLinks.classList.add('hidden');
             userInfo.classList.remove('hidden');
             userInfo.classList.add('flex');
-            // Sanitize username before displaying to prevent XSS
-            userNameEl.textContent = `Welcome, ${sanitizeHTML(user.username)}`;
+            userNameEl.textContent = `${welcomeText}${sanitizedUsername}`;
+            // Mobile
+            mobileAuthLinks.classList.add('hidden');
+            mobileUserInfo.classList.remove('hidden');
+            mobileUserNameEl.textContent = `${welcomeText}${sanitizedUsername}`;
         };
 
         const updateUIForLoggedOutUser = () => {
+            // Desktop
             authLinks.classList.remove('hidden');
             userInfo.classList.add('hidden');
             userInfo.classList.remove('flex');
             userNameEl.textContent = '';
+            // Mobile
+            mobileAuthLinks.classList.remove('hidden');
+            mobileUserInfo.classList.add('hidden');
+            mobileUserNameEl.textContent = '';
         };
 
         const checkLoginState = () => {
@@ -594,18 +870,19 @@
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             signupError.classList.add('hidden');
+            const lang = localStorage.getItem('language') || 'en';
             const username = document.getElementById('signup-username').value;
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('signup-confirm-password').value;
             
             if (password.length < 8) {
-                signupError.textContent = 'Password must be at least 8 characters long.';
+                signupError.textContent = translations[lang].passwordLengthError;
                 signupError.classList.remove('hidden');
                 return;
             }
             
             if (password !== confirmPassword) {
-                signupError.textContent = 'Passwords do not match.';
+                signupError.textContent = translations[lang].passwordMatchError;
                 signupError.classList.remove('hidden');
                 return;
             }
@@ -613,7 +890,7 @@
             let users = JSON.parse(localStorage.getItem('users')) || [];
             
             if (users.find(user => user.username === username)) {
-                signupError.textContent = 'A user with this username already exists.';
+                signupError.textContent = translations[lang].userExistsError;
                 signupError.classList.remove('hidden');
                 return;
             }
@@ -632,6 +909,7 @@
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             loginError.classList.add('hidden');
+            const lang = localStorage.getItem('language') || 'en';
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
             const passwordHash = await hashData(password);
@@ -645,15 +923,21 @@
                 closeModal(loginModal);
                 loginForm.reset();
             } else {
-                loginError.textContent = 'Invalid username or password.';
+                loginError.textContent = translations[lang].invalidCredentialsError;
                 loginError.classList.remove('hidden');
             }
         });
 
-        logoutBtn.addEventListener('click', () => {
+        const handleLogout = () => {
             localStorage.removeItem('currentUser');
             updateUIForLoggedOutUser();
-        });
+            if(!mobileMenu.classList.contains('hidden')){
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        logoutBtn.addEventListener('click', handleLogout);
+        mobileLogoutBtn.addEventListener('click', handleLogout);
 
 
         // --- AI Chatbot Logic ---
@@ -729,7 +1013,7 @@
             const apiKey = ""; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
-            const systemPrompt = "You are a friendly and professional AI assistant for a web development agency called 'Taron Web Design'. Your goal is to answer questions about the services, pricing, and process. Be concise and helpful. The services include Starter, Business, and Pro Subscription plans. The creator is Taron Seynyan.";
+            const systemPrompt = "You are a polite, clear, and concise AI assistant for 'Apex Webcraft'. Your answers should be short and direct. You must know the following: \n- **Services & Prices:** Starter plan is $10, Business plan is $15. We build custom websites with HTML and CSS. \n- **How to Order:** To start a project, the user needs to fill out the contact form or email Taron Seynyan directly. \n- **Creator:** The agency is run by Taron Seynyan.";
 
             const payload = {
                 contents: [
@@ -765,6 +1049,8 @@
 
         // Initial check on page load
         document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('language') || 'en';
+            setLanguage(savedLang);
             checkLoginState();
         });
 
