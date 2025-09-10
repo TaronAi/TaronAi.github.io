@@ -4,7 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apex Webcraft - Your Vision, Online</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 19L12 5L20 19M8.5 14H15.5' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Apex Webcraft offers easy and affordable custom website design. We build beautiful, high-performance sites, from personal portfolios to business pages.">
+    <meta name="keywords" content="web design, custom websites, affordable websites, portfolio websites, business websites, landing pages, Apex Webcraft, HTML, CSS">
+    <meta name="author" content="Taron Seynyan">
+
+    <!-- Social Media Meta Tags (Open Graph & Twitter) -->
+    <!-- Note: Replace the placeholder URLs with your actual website URL when you go live -->
+    <meta property="og:title" content="Apex Webcraft - Your Vision, Online">
+    <meta property="og:description" content="Apex Webcraft offers easy and affordable custom website design. We build beautiful, high-performance sites, from personal portfolios to business pages.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yourwebsite.com">
+    <meta property="og:image" content="https://placehold.co/1200x630/667eea/ffffff?text=Apex+Webcraft">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apex Webcraft - Your Vision, Online">
+    <meta name="twitter:description" content="Apex Webcraft offers easy and affordable custom website design. We build beautiful, high-performance sites, from personal portfolios to business pages.">
+    <meta name="twitter:image" content="https://placehold.co/1200x630/667eea/ffffff?text=Apex+Webcraft">
+
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -353,7 +375,7 @@
         </section>
         
         <!-- Contact / Order Form Section -->
-        <section id="contact" class="py-20">
+        <section id="contact" class="py-20 hidden">
             <div class="container mx-auto px-6">
                 <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 lg:flex lg:items-center lg:gap-12">
                     <div class="lg:w-1/2">
@@ -747,7 +769,19 @@
                 const href = this.getAttribute('href');
                 if(href.startsWith('#') && href.length > 1) {
                     e.preventDefault();
-                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        if (href === '#contact') {
+                            contactSection.classList.remove('hidden');
+                        }
+                        
+                        // Use timeout to ensure element is visible before scrolling
+                        setTimeout(() => {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }, 50);
+                    }
+                    
                     if (!mobileMenu.classList.contains('hidden')) {
                         mobileMenu.classList.add('hidden');
                     }
@@ -777,6 +811,9 @@
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 
+                // Make the contact section visible
+                contactSection.classList.remove('hidden');
+
                 const planCard = button.closest('div');
                 const planTitleElement = planCard.querySelector('h3[data-key]');
                 const planTitleKey = planTitleElement.getAttribute('data-key');
@@ -1138,4 +1175,6 @@
     </script>
 </body>
 </html>
+
+
 
